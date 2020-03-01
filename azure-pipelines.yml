@@ -22,8 +22,8 @@ jobs:
   #     pytest
   #   displayName: pytest
 
-  - script: |
-      call activate chihiro
-      echo "$Env:Path"
-      displayName: print PATH
+  - powershell: |
+      Write-Host "Agent name $Env:AGENT_NAME."
+      Write-Host "Path variable is $Env:Path."
+    displayName: print PATH
 
