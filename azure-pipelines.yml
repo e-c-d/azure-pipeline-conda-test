@@ -5,12 +5,13 @@ jobs:
     vmImage: 'vs2017-win2016'
 
   steps:
-  - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
+  - powershell: |
+      Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
+      Write-Host "##vso[task.setvariable variable=CONDAPS1]$env:CONDA\Scripts\activate.ps1"
     displayName: Add conda to PATH
 
   - script: |
       conda create --yes --quiet --name chihiro
-      conda init powershell
     displayName: Create Anaconda environment
 
   - script: |
@@ -21,9 +22,15 @@ jobs:
   # -I"${CONDA_PREFIX}"/include
 
   - powershell: |
-      conda activate chihiro
       Write-Host "Agent name $Env:AGENT_NAME."
       Write-Host "Path variable is $Env:Path."
       gci env:* | sort-object name | Out-String | Write-Host
-    displayName: print PATH
+    displayName: print PATH1
+
+  - powershell: |
+      . $env:CONDAPS1 chihiro
+      Write-Host "Agent name $Env:AGENT_NAME."
+      Write-Host "Path variable is $Env:Path."
+      gci env:* | sort-object name | Out-String | Write-Host
+    displayName: print PATH2
 
