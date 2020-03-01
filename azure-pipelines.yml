@@ -7,7 +7,7 @@ jobs:
   steps:
   - powershell: |
       Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
-      Write-Host "##vso[task.setvariable variable=CONDAPS1]$env:CONDA\Scripts\activate.ps1"
+      Write-Host "##vso[task.setvariable variable=CONDAPS1]$env:CONDA\shell\condabin\conda-hook.ps1"
     displayName: Add conda to PATH
 
   - script: |
@@ -30,7 +30,7 @@ jobs:
     displayName: print PATH1
 
   - powershell: |
-      . $env:CONDA\shell\condabin\conda-hook.ps1
+      . $CONDAPS1
       conda activate chihiro
       Write-Host "Agent name $Env:AGENT_NAME."
       Write-Host "Path variable is $Env:Path."
