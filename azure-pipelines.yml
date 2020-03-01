@@ -19,7 +19,7 @@ jobs:
   # -I"${CONDA_PREFIX}"/include
 
   - powershell: |
-      activate chihiro
+      conda activate chihiro
       Write-Host "Agent name $Env:AGENT_NAME."
       Write-Host "Path variable is $Env:Path."
       gci env:* | sort-object name | Out-String | Write-Host
