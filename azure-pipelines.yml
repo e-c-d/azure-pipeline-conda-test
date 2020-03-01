@@ -24,7 +24,7 @@ jobs:
   - powershell: |
       Write-Host "Agent name $Env:AGENT_NAME."
       Write-Host "Path variable is $Env:Path."
-      ls $env:CONDA\etc\profile.d\ | Out-String | Write-Host
+      ls $env:CONDA\shell\condabin\conda-hook.ps1 | Out-String | Write-Host
       Write-Host "boop"
       gci env:* | sort-object name | Out-String | Write-Host
     displayName: print PATH1
