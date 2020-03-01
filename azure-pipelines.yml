@@ -1,0 +1,29 @@
+
+- job:
+  displayName: 'vs2017-win2016'
+  pool:
+    vmImage: 'vs2017-win2016'
+
+  steps:
+  - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
+    displayName: Add conda to PATH
+
+  - script: conda create --yes --quiet --name chihiro
+    displayName: Create Anaconda environment
+
+  - script: |
+      call activate chihiro
+      conda install --yes --quiet --name chihiro openssl
+    displayName: Install Anaconda packages
+
+  # - script: |
+  #     call activate chihiro
+  #     pip install pytest pytest-azurepipelines
+  #     pytest
+  #   displayName: pytest
+
+  - script: |
+      call activate chihiro
+      echo "$Env:Path"
+      displayName: print PATH
+
