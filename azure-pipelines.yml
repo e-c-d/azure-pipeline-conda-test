@@ -25,5 +25,6 @@ jobs:
   - powershell: |
       Write-Host "Agent name $Env:AGENT_NAME."
       Write-Host "Path variable is $Env:Path."
+      gci env:* | sort-object name | Write-Host
     displayName: print PATH
 
