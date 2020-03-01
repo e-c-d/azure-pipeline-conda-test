@@ -19,21 +19,29 @@ jobs:
       conda install --yes --quiet --name chihiro openssl
     displayName: Install Anaconda packages
 
-  # -I"${CONDA_PREFIX}"/include
-
   - powershell: |
-      Write-Host "Agent name $Env:AGENT_NAME."
-      Write-Host "Path variable is $Env:Path."
-      ls $env:CONDA\shell\condabin\conda-hook.ps1 | Out-String | Write-Host
-      Write-Host "boop"
-      gci env:* | sort-object name | Out-String | Write-Host
-    displayName: print PATH1
-
-  - powershell: |
-      . $CONDAPS1
+      . $Env:CONDAPS1
       conda activate chihiro
       Write-Host "Agent name $Env:AGENT_NAME."
       Write-Host "Path variable is $Env:Path."
       gci env:* | sort-object name | Out-String | Write-Host
-    displayName: print PATH2
+    displayName: Print variables
 
+  - powershell: |
+      . $Env:CONDAPS1
+      conda activate chihiro
+      cl hello.c $CONDA_PREFIX\Library\lib\libssleay32.lib /I $CONDA_PREFIX\include
+    displayName: Build hello.c
+
+  - task: CopyFiles@2
+    displayName: "Copy files to artifact staging directory"
+    inputs:
+      Contents: |
+        hello.exe
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+  - powershell: |
+      . $Env:CONDAPS1
+      conda activate chihiro
+      hello.exe | Out-Host
+    displayName: Run hello.exe and see what happens
