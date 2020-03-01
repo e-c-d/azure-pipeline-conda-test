@@ -16,15 +16,11 @@ jobs:
       conda install --yes --quiet --name chihiro openssl
     displayName: Install Anaconda packages
 
-  # - script: |
-  #     call activate chihiro
-  #     pip install pytest pytest-azurepipelines
-  #     pytest
-  #   displayName: pytest
+  # -I"${CONDA_PREFIX}"/include
 
   - powershell: |
       Write-Host "Agent name $Env:AGENT_NAME."
       Write-Host "Path variable is $Env:Path."
-      gci env:* | sort-object name | Write-Host
+      gci env:* | sort-object name | Out-String | Write-Host
     displayName: print PATH
 
